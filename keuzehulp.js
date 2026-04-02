@@ -1,4 +1,3 @@
-
 (function () {
   if (!window.location.pathname.startsWith('/thuisbatterijen')) return;
 
@@ -113,9 +112,9 @@
   /* ── 3. WIDGET LOGICA ───────────────────────────────────────────────────── */
   var PRODUCTS = {
     plugplay_klein: { featured: false, naam: "Hoymiles Plug-In Battery MS-A2 · 2,24 kWh", prijs: "€ 599,–", desc: "Plug & play via stopcontact. Inclusief P1-monitoring. Instapper zonder installateur.", tags: ["2,24 kWh", "P1-monitoring", "LiFePO₄"], stock: null, url: "https://solarnrg.shop/thuisbatterijen/hoymiles-plug-in-battery-ms-a2-2-24kwh-p1-monitoring/" },
-    plugplay_mid: { featured: true, naam: "Marstek Venus-E V2.0 · 5,12 kWh", prijs: "€ 1.000,–", desc: "Bestseller. 106 stuks op voorraad. Plug & play via stopcontact of aparte groep (2.500 W). Incl. P1-meter.", tags: ["5,12 kWh", "2.500 W", "LiFePO₄"], stock: "Op voorraad", url: "https://solarnrg.shop/thuisbatterijen/marstek-venus-e-5-12-kwh-v2-plug-and-play-thuisbatterij-met-p1meter/" },
+    plugplay_mid: { featured: false, naam: "Marstek Venus-E V2.0 · 5,12 kWh", prijs: "€ 1.000,–", desc: "Bestseller. 106 stuks op voorraad. Plug & play via stopcontact of aparte groep (2.500 W). Incl. P1-meter.", tags: ["5,12 kWh", "2.500 W", "LiFePO₄"], stock: "Op voorraad", url: "https://solarnrg.shop/thuisbatterijen/marstek-venus-e-5-12-kwh-v2-plug-and-play-thuisbatterij-met-p1meter/" },
     plugplay_groot: { featured: false, naam: "Marstek Venus-E 10,24 kWh 2.0", prijs: "€ 2.190,–", desc: "Dubbele capaciteit. Plug & play, inclusief P1-meter, geschikt voor dynamisch laden.", tags: ["10,24 kWh", "Plug & Play", "Dynamisch laden"], stock: null, url: "https://solarnrg.shop/thuisbatterijen/marstek-venus-e-10-24-kwh-2-0-plug-and-play-thuisbatterij-met-p1-meter/" },
-    aeg_plugplay: { featured: false, naam: "AEG Solarcube · 4,8 kWh", prijs: "€ 1.446,–", desc: "Uitbreidbaar tot 14,4 kWh. 10 jaar garantie, 6.000+ cycli.", tags: ["4,8 kWh", "Uitbreidbaar", "10 jr garantie"], stock: null, url: "https://solarnrg.shop/thuisbatterijen/aeg-solarcube-4-8-kwh-plug-in-battery/" },
+    aeg_plugplay: { featured: true, naam: "AEG Solarcube · 4,8 kWh", prijs: "€ 1.446,–", desc: "Uitbreidbaar tot 14,4 kWh. 10 jaar garantie, 6.000+ cycli.", tags: ["4,8 kWh", "Uitbreidbaar", "10 jr garantie"], stock: null, url: "https://solarnrg.shop/thuisbatterijen/aeg-solarcube-4-8-kwh-plug-in-battery/" },
     marstek_v3: { featured: false, naam: "Marstek Venus-E V3.0 · 5,12 kWh", prijs: "€ 1.050,–", desc: "Nieuwste generatie. 2.500 W laadvermogen. Ideaal voor dynamisch contract.", tags: ["5,12 kWh", "V3.0", "2.500 W"], stock: null, url: "https://solarnrg.shop/thuisbatterijen/marstek-venus-e-5-12kwh-v3-0/" },
     sessy_5kwh: { featured: false, naam: "Sessy Thuisbatterij · 5 kWh", prijs: "€ 2.250,–", desc: "Nederlands merk. Plug & play via 3-fase groep. Uitstekend voor dynamisch contract.", tags: ["5 kWh", "Dynamisch contract", "Nederlands"], stock: null, url: "https://solarnrg.shop/thuisbatterijen/sessy-thuisbatterij-5-kwh-wit/" },
     sessy_10kwh: { featured: false, naam: "Sessy Thuisbatterij · 10 kWh", prijs: "€ 3.750,–", desc: "Grote capaciteit, plug & play, dynamisch contract-klaar.", tags: ["10 kWh", "Dynamisch contract", "LiFePO₄"], stock: null, url: "https://solarnrg.shop/thuisbatterijen/sessy-thuisbatterij-10-kwh-wit/" },
@@ -147,9 +146,9 @@
       { icon: "❓", label: "Geen / weet ik niet", sub: "Oriënterende koper", waarde: "geen" }
     ]},
     { id: "backup", vraag: "Backup bij stroomuitval — nodig?", sub: "Vereist een speciale module. Niet elke batterij heeft dit standaard.", opties: [
-      { icon: "✅", label: "Ja, essentieel", sub: "Ik wil zekerheid bij een blackout", waarde: "ja" },
-      { icon: "🤔", label: "Handig, maar niet noodzakelijk", sub: null, waarde: "nice" },
-      { icon: "❌", label: "Niet nodig", sub: null, waarde: "nee" }
+      { icon: "🔋", label: "Ja, essentieel", sub: "Ik wil zekerheid bij een blackout", waarde: "ja" },
+      { icon: "💡", label: "Handig, maar niet noodzakelijk", sub: null, waarde: "nice" },
+      { icon: "⚡", label: "Niet nodig", sub: "Ik wil gewoon slim energie opslaan", waarde: "nee" }
     ]}
   ];
 
@@ -158,9 +157,9 @@
     if (backup === "ja" || gebruik === "backup") return { titel: "Batterij met backup-functie", uitleg: "Sigenergy heeft backup ingebouwd — meest complete keuze.", producten: ["sigenergy_totaal_1f", "sigenergy_totaal_3f", "sigen_backup_sp"] };
     if (gebruik === "dynamic") return { titel: "Optimaal voor dynamisch contract", uitleg: "Hoge laadsnelheid is key. Marstek en Sessy scoren hier het best.", producten: cap === "groot" ? ["marstek_15kwh", "sessy_10kwh", "marstek_v3"] : ["marstek_v3", "plugplay_mid", "sessy_5kwh"] };
     if (inst === "pnp") {
-      if (cap === "groot") return { titel: "Plug & play voor groot systeem", uitleg: null, producten: ["marstek_15kwh", "plugplay_groot", "sessy_10kwh"] };
-      if (cap === "middel") return { titel: "Plug & play — populairste keuze", uitleg: null, producten: ["plugplay_mid", "marstek_v3", "aeg_plugplay"] };
-      return { titel: "Plug & play starten", uitleg: null, producten: ["plugplay_mid", "plugplay_klein", "aeg_plugplay"] };
+      if (cap === "groot") return { titel: "Plug & play voor groot systeem", uitleg: null, producten: ["aeg_plugplay", "marstek_15kwh", "plugplay_groot"] };
+      if (cap === "middel") return { titel: "Plug & play — populairste keuze", uitleg: null, producten: ["aeg_plugplay", "plugplay_mid", "marstek_v3"] };
+      return { titel: "Plug & play starten", uitleg: null, producten: ["aeg_plugplay", "plugplay_mid", "plugplay_klein"] };
     }
     if (inst === "vast") {
       if (cap === "groot") return { titel: "Vast systeem voor groot verbruik", uitleg: null, producten: ["sigenergy_totaal_3f", "sigenergy_10kwh", "sessy_10kwh"] };
@@ -235,4 +234,3 @@
   // Init na inject
   setTimeout(function() { rp(); rs(); }, 100);
 })();
-
