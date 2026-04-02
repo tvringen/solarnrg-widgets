@@ -162,9 +162,9 @@
       return { titel: "Plug & play starten", uitleg: null, producten: ["aeg_plugplay", "plugplay_mid", "plugplay_klein"] };
     }
     if (inst === "vast") {
-      if (cap === "groot") return { titel: "Vast systeem voor groot verbruik", uitleg: null, producten: ["sigenergy_totaal_3f", "sigenergy_10kwh", "sessy_10kwh"] };
-      if (cap === "klein") return { titel: "Compact vast systeem", uitleg: null, producten: ["growatt_totaal", "sigenergy_totaal_1f", "sessy_5kwh"] };
-      return { titel: "Vast systeem — middenklasse", uitleg: null, producten: ["sigenergy_totaal_1f", "growatt_totaal", "sessy_5kwh"] };
+      if (cap === "groot") return { titel: "Vast systeem voor groot verbruik", uitleg: null, producten: ["sigenergy_totaal_3f", "alphaess", "sigenergy_10kwh"] };
+      if (cap === "klein") return { titel: "Compact vast systeem", uitleg: null, producten: ["huawei_luna", "growatt_totaal", "sigenergy_totaal_1f"] };
+      return { titel: "Vast systeem — middenklasse", uitleg: null, producten: ["sigenergy_totaal_1f", "huawei_luna", "alphaess"] };
     }
     if (cap === "groot") return { titel: "Hoge capaciteit aanbevolen", uitleg: null, producten: ["marstek_15kwh", "sigenergy_totaal_3f", "sessy_10kwh"] };
     if (cap === "klein") return { titel: "Instapopties", uitleg: null, producten: ["plugplay_mid", "plugplay_klein", "growatt_totaal"] };
