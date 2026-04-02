@@ -5,12 +5,12 @@
   var css = `
     #snrg-kh-btn {
       display: inline-flex; align-items: center; gap: 8px;
-      background: #f5a623; color: #fff;
+      background: #ffb914; color: #fff;
       font-family: inherit; font-size: 14px; font-weight: 700;
       padding: 10px 20px; border-radius: 20px; border: none;
       cursor: pointer; margin: 0 0 1.5rem; transition: background .15s;
     }
-    #snrg-kh-btn:hover { background: #d9911a; }
+    #snrg-kh-btn:hover { background: #e0a210; }
 
     #snrg-kh-overlay {
       display: none; position: fixed; inset: 0;
@@ -30,7 +30,7 @@
       padding: 10px 16px; display: flex; align-items: center; gap: 10px;
       position: sticky; top: 0; z-index: 1;
     }
-    .kh-topbar-dot { width: 8px; height: 8px; border-radius: 50%; background: #f5a623; flex-shrink: 0; }
+    .kh-topbar-dot { width: 8px; height: 8px; border-radius: 50%; background: #ffb914; flex-shrink: 0; }
     .kh-topbar-label { font-size: 11px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: #fff; }
     .kh-topbar-step { margin-left: auto; font-size: 11px; color: rgba(255,255,255,.4); }
     .kh-topbar-close {
@@ -42,7 +42,7 @@
 
     .kh-progress { height: 3px; background: #ddd5cc; display: flex; gap: 2px; }
     .kh-bar { flex: 1; background: #ddd5cc; transition: background .2s; }
-    .kh-bar.done { background: #f5a623; }
+    .kh-bar.done { background: #ffb914; }
 
     .kh-card { padding: 16px 18px 14px; }
 
@@ -56,21 +56,21 @@
       background: #faf8f5; cursor: pointer; text-align: left; width: 100%;
       font-family: inherit; transition: border-color .12s, background .12s;
     }
-    .kh-option:hover { border-color: #f5a623; background: #fffbf2; }
+    .kh-option:hover { border-color: #ffb914; background: #fffbf2; }
     .kh-kh-icon { font-size: 16px; flex-shrink: 0; }
     .kh-opt-title { display: block; font-size: 13px; font-weight: 600; color: #111; }
     .kh-opt-sub { display: block; font-size: 11px; color: #999; margin-top: 1px; }
     .kh-back { margin-top: 10px; font-size: 11px; color: #bbb; background: none; border: none; cursor: pointer; font-family: inherit; }
     .kh-back:hover { color: #555; }
 
-    .kh-result-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: #f5a623; margin-bottom: 3px; }
+    .kh-result-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: #ffb914; margin-bottom: 3px; }
     .kh-result-title { font-size: 15px; font-weight: 700; color: #111; margin-bottom: 5px; }
     .kh-result-uitleg { font-size: 12px; color: #777; line-height: 1.5; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #ede8e2; }
 
     .kh-products { display: grid; gap: 8px; }
     .kh-product { border: 1px solid #e2dbd3; border-radius: 6px; padding: 11px 13px; background: #faf8f5; display: grid; gap: 6px; }
-    .kh-product.featured { border-color: #f5a623; background: #fff; }
-    .kh-featured-badge { display: inline-block; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; padding: 2px 8px; border-radius: 3px; background: #f5a623; color: #fff; margin-bottom: 1px; }
+    .kh-product.featured { border-color: #ffb914; background: #fff; }
+    .kh-featured-badge { display: inline-block; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; padding: 2px 8px; border-radius: 3px; background: #ffb914; color: #fff; margin-bottom: 1px; }
     .kh-product-row1 { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
     .kh-product-name { font-size: 12px; font-weight: 700; color: #111; line-height: 1.35; }
     .kh-product-price { font-size: 14px; font-weight: 800; color: #111; white-space: nowrap; flex-shrink: 0; }
@@ -79,10 +79,10 @@
     .kh-tags { display: flex; flex-wrap: wrap; gap: 4px; }
     .kh-tag { font-size: 10px; padding: 2px 7px; border-radius: 3px; border: 1px solid #e2dbd3; color: #888; background: #f5f1ec; white-space: nowrap; }
     .kh-tag.green { border-color: #a8d5a2; color: #276022; background: #eef7ec; }
-    .kh-cta { display: inline-flex; align-items: center; gap: 4px; background: #f5a623; color: #fff; font-size: 11px; font-weight: 700; padding: 7px 13px; border-radius: 20px; text-decoration: none; white-space: nowrap; transition: background .12s; }
-    .kh-cta:hover { background: #d9911a; }
+    .kh-cta { display: inline-flex; align-items: center; gap: 4px; background: #ffb914; color: #fff; font-size: 11px; font-weight: 700; padding: 7px 13px; border-radius: 20px; text-decoration: none; white-space: nowrap; transition: background .12s; }
+    .kh-cta:hover { background: #e0a210; }
     .kh-footer { margin-top: 10px; display: flex; justify-content: space-between; align-items: center; padding-top: 10px; border-top: 1px solid #ede8e2; }
-    .kh-footer a { font-size: 11px; color: #f5a623; text-decoration: none; font-weight: 600; }
+    .kh-footer a { font-size: 11px; color: #ffb914; text-decoration: none; font-weight: 600; }
     .kh-footer a:hover { text-decoration: underline; }
     .kh-reset { font-size: 11px; color: #bbb; background: none; border: none; cursor: pointer; font-family: inherit; }
     .kh-reset:hover { color: #777; }
@@ -92,7 +92,7 @@
   document.head.appendChild(style);
 
   /* ── 2. HTML INJECTEREN ─────────────────────────────────────────────────── */
-  var trigger = '<button id="snrg-kh-btn" onclick="snrgKH.open()">⚡ Hulp bij kiezen — vind jouw thuisbatterij</button>';
+  var trigger = '<button id="snrg-kh-btn" onclick="snrgKH.open()">⚡ Keuzehulp particulieren</button>';
   var overlay = '<div id="snrg-kh-overlay" onclick="snrgKH.bgClose(event)"><div id="snrg-kh-modal"><div class="kh-topbar"><div class="kh-topbar-dot"></div><div class="kh-topbar-label">Keuzehulp thuisbatterij</div><div class="kh-topbar-step" id="kh-stap-label">Stap 1 van 4</div><button class="kh-topbar-close" onclick="snrgKH.close()">✕</button></div><div class="kh-progress" id="kh-progress"></div><div class="kh-card" id="kh-content"></div></div></div>';
 
   function inject() {
@@ -112,19 +112,19 @@
   /* ── 3. WIDGET LOGICA ───────────────────────────────────────────────────── */
   var PRODUCTS = {
     plugplay_klein: { featured: true, naam: "Hoymiles Plug-In Battery MS-A2 · 2,24 kWh", prijs: "€ 599,–", desc: "Hoog omvormer vermogen (instelbaar tot 1.000 W) voor plug & play. Ideaal voor dynamisch handelen — laadt snel op lage uurtarieven.", tags: ["2,24 kWh", "Tot 1.000 W", "P1-monitoring", "LiFePO₄"], stock: null, url: "https://solarnrg.shop/thuisbatterijen/hoymiles-plug-in-battery-ms-a2-2-24kwh-p1-monitoring/" },
-    plugplay_mid: { featured: false, naam: "Marstek Venus-E V2.0 · 5,12 kWh", prijs: "€ 1.000,–", desc: "Bestseller. 106 stuks op voorraad. Plug & play via stopcontact of aparte groep (2.500 W). Incl. P1-meter.", tags: ["5,12 kWh", "2.500 W", "LiFePO₄"], stock: "Op voorraad", url: "https://solarnrg.shop/thuisbatterijen/marstek-venus-e-5-12-kwh-v2-plug-and-play-thuisbatterij-met-p1meter/" },
-    plugplay_groot: { featured: false, naam: "Marstek Venus-E 10,24 kWh 2.0", prijs: "€ 2.190,–", desc: "Dubbele capaciteit. Plug & play, inclusief P1-meter, geschikt voor dynamisch laden.", tags: ["10,24 kWh", "Plug & Play", "Dynamisch laden"], stock: null, url: "https://solarnrg.shop/thuisbatterijen/marstek-venus-e-10-24-kwh-2-0-plug-and-play-thuisbatterij-met-p1-meter/" },
-    aeg_plugplay: { featured: true, naam: "AEG Solarcube · 4,8 kWh", prijs: "€ 1.446,–", desc: "Uitbreidbaar tot 14,4 kWh. 10 jaar garantie, 6.000+ cycli.", tags: ["4,8 kWh", "Uitbreidbaar", "10 jr garantie"], stock: null, url: "https://solarnrg.shop/thuisbatterijen/aeg-solarcube-4-8-kwh-plug-in-battery/" },
-    marstek_v3: { featured: false, naam: "Marstek Venus-E V3.0 · 5,12 kWh", prijs: "€ 1.050,–", desc: "Nieuwste generatie. 2.500 W laadvermogen. Ideaal voor dynamisch contract.", tags: ["5,12 kWh", "V3.0", "2.500 W"], stock: null, url: "https://solarnrg.shop/thuisbatterijen/marstek-venus-e-5-12kwh-v3-0/" },
-    sessy_5kwh: { featured: false, naam: "Sessy Thuisbatterij · 5 kWh", prijs: "€ 2.250,–", desc: "Nederlands merk. Plug & play via 3-fase groep. Uitstekend voor dynamisch contract.", tags: ["5 kWh", "Dynamisch contract", "Nederlands"], stock: null, url: "https://solarnrg.shop/thuisbatterijen/sessy-thuisbatterij-5-kwh-wit/" },
-    sessy_10kwh: { featured: false, naam: "Sessy Thuisbatterij · 10 kWh", prijs: "€ 3.750,–", desc: "Grote capaciteit, plug & play, dynamisch contract-klaar.", tags: ["10 kWh", "Dynamisch contract", "LiFePO₄"], stock: null, url: "https://solarnrg.shop/thuisbatterijen/sessy-thuisbatterij-10-kwh-wit/" },
+    plugplay_mid: { featured: false, naam: "Marstek Venus-E V2.0 · 5,12 kWh", prijs: "€ 1.250,–", desc: "Bestseller. Plug & play via stopcontact of aparte groep (2.500 W). Incl. P1-meter.", tags: ["5,12 kWh", "2.500 W", "LiFePO₄"], stock: null, url: "https://solarnrg.shop/thuisbatterijen/marstek-venus-e-5-12-kwh-v2-plug-and-play-thuisbatterij-met-p1meter/" },
+    plugplay_groot: { featured: false, naam: "Marstek Venus-E 10,24 kWh 2.0", prijs: "€ 2.738,–", desc: "Dubbele capaciteit. Plug & play, inclusief P1-meter, geschikt voor dynamisch laden.", tags: ["10,24 kWh", "Plug & Play", "Dynamisch laden"], stock: null, url: "https://solarnrg.shop/thuisbatterijen/marstek-venus-e-10-24-kwh-2-0-plug-and-play-thuisbatterij-met-p1-meter/" },
+    aeg_plugplay: { featured: true, naam: "AEG Solarcube · 4,8 kWh", prijs: "€ 1.750,–", desc: "Uitbreidbaar tot 14,4 kWh. 10 jaar garantie, 6.000+ cycli.", tags: ["4,8 kWh", "Uitbreidbaar", "10 jr garantie"], stock: null, url: "https://solarnrg.shop/thuisbatterijen/aeg-solarcube-4-8-kwh-plug-in-battery/" },
+    marstek_v3: { featured: false, naam: "Marstek Venus-E V3.0 · 5,12 kWh", prijs: "€ 1.150,–", desc: "Nieuwste generatie. 2.500 W laadvermogen. Ideaal voor dynamisch contract.", tags: ["5,12 kWh", "V3.0", "2.500 W"], stock: null, url: "https://solarnrg.shop/thuisbatterijen/marstek-venus-e-5-12kwh-v3-0/" },
+    sessy_5kwh: { featured: false, naam: "Sessy Thuisbatterij · 5 kWh", prijs: "€ 2.820,–", desc: "Nederlands merk. Plug & play via 3-fase groep. Uitstekend voor dynamisch contract.", tags: ["5 kWh", "Dynamisch contract", "Nederlands"], stock: null, url: "https://solarnrg.shop/thuisbatterijen/sessy-thuisbatterij-5-kwh-wit/" },
+    sessy_10kwh: { featured: false, naam: "Sessy Thuisbatterij · 10 kWh", prijs: "€ 4.560,–", desc: "Grote capaciteit, plug & play, dynamisch contract-klaar.", tags: ["10 kWh", "Dynamisch contract", "LiFePO₄"], stock: null, url: "https://solarnrg.shop/thuisbatterijen/sessy-thuisbatterij-10-kwh-wit/" },
     growatt_totaal: { featured: false, naam: "Growatt APX Totaalpakket · 5 kWh", prijs: "€ 2.299,–", desc: "Voordeligste complete vaste systeem. LFP, IP66, wandmontage. Incl. omvormer en meter.", tags: ["5 kWh", "Compleet pakket", "IP66"], stock: null, url: "https://solarnrg.shop/batterijen/totaalpakketten/growatt-apx-batterij-totaalpakket/" },
     sigenergy_totaal_1f: { featured: true, naam: "Sigenergy Totaalpakket · 1-fase", prijs: "€ 3.932,–", desc: "Hoog omvormer vermogen — snel laden én ontladen op uurtarief. Compleet systeem incl. backup (0 ms). IP66.", tags: ["Hoog omvormer vermogen", "Backup inbegrepen", "1-fase", "IP66"], stock: null, url: "https://solarnrg.shop/batterijen/totaalpakketten/sigenergy-batterij-totaalpakket-1-fase/" },
     sigenergy_totaal_3f: { featured: true, naam: "Sigenergy Totaalpakket · 3-fase", prijs: "€ 4.602,–", desc: "Maximaal omvormer vermogen op 3-fase — ideaal voor grote systemen en actief dynamisch handelen. Incl. backup.", tags: ["Hoog omvormer vermogen", "3-fase", "Backup inbegrepen", "IP66"], stock: null, url: "https://solarnrg.shop/batterijen/totaalpakketten/sigenergy-batterij-totaalpakket-3-fase/" },
-    sigenergy_bat8: { featured: false, naam: "Sigenergy SigenStor Battery · 8 kWh", prijs: "€ 2.340,–", desc: "64 stuks op voorraad. Modulair uitbreidbaar. Combineer met Sigenergy controller.", tags: ["8 kWh", "Modulair", "LiFePO₄"], stock: "Op voorraad", url: "https://solarnrg.shop/thuisbatterijen/sigenergy-sigenstor-battery-8-0-with-led-opvolger-is-10-0/" },
-    sigen_backup_sp: { featured: false, naam: "Sigen HomePro SP · Backup 1-fase", prijs: "€ 463,–", desc: "Backup gateway voor 1-fase, 0 ms omschakeltijd.", tags: ["Backup", "1-fase", "0 ms"], stock: null, url: "https://solarnrg.shop/accessoires/sigen-energy-gateway-homepro-sp/" },
-    marstek_15kwh: { featured: false, naam: "Marstek Venus-E 15,36 kWh 2.0", prijs: "€ 3.223,–", desc: "Maximale Marstek plug & play capaciteit voor grote systemen.", tags: ["15,36 kWh", "Plug & Play", "Dynamisch laden"], stock: null, url: "https://solarnrg.shop/plug-and-play/marstek-venus-e-15-36-kwh-2-0-plug-and-play-thuisbatterij-met-p1-meter/" },
-    sigenergy_10kwh: { featured: false, naam: "Sigenergy SigenStor Battery · 10 kWh", prijs: "€ 2.446,–", desc: "Nieuwste 10 kWh module. Modulair stapelbaar.", tags: ["10 kWh", "Modulair", "LiFePO₄"], stock: null, url: "https://solarnrg.shop/thuisbatterijen/sigenergy-sigenstor-battery-10-0-with-led/" }
+    sigenergy_bat8: { featured: false, naam: "Sigenergy SigenStor Battery · 8 kWh", prijs: "€ 2.340,–", desc: "Modulair uitbreidbaar. Combineer met Sigenergy controller voor volledig systeem.", tags: ["8 kWh", "Modulair", "LiFePO₄"], stock: null, url: "https://solarnrg.shop/thuisbatterijen/sigenergy-sigenstor-battery-8-0-with-led-opvolger-is-10-0/" },
+    sigen_backup_sp: { featured: false, naam: "Sigen HomePro SP · Backup 1-fase", prijs: "€ 604,–", desc: "Backup gateway voor 1-fase, 0 ms omschakeltijd.", tags: ["Backup", "1-fase", "0 ms"], stock: null, url: "https://solarnrg.shop/accessoires/sigen-energy-gateway-homepro-sp/" },
+    marstek_15kwh: { featured: false, naam: "Marstek Venus-E 15,36 kWh 2.0", prijs: "€ 4.029,–", desc: "Maximale Marstek plug & play capaciteit voor grote systemen.", tags: ["15,36 kWh", "Plug & Play", "Dynamisch laden"], stock: null, url: "https://solarnrg.shop/plug-and-play/marstek-venus-e-15-36-kwh-2-0-plug-and-play-thuisbatterij-met-p1-meter/" },
+    sigenergy_10kwh: { featured: false, naam: "Sigenergy SigenStor Battery · 10 kWh", prijs: "€ 3.276,–", desc: "Nieuwste 10 kWh module. Modulair stapelbaar.", tags: ["10 kWh", "Modulair", "LiFePO₄"], stock: null, url: "https://solarnrg.shop/thuisbatterijen/sigenergy-sigenstor-battery-10-0-with-led/" }
   };
 
   var STEPS = [
