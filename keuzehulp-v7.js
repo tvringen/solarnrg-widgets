@@ -4,11 +4,12 @@
   /* ── 1. STIJLEN ─────────────────────────────────────────────────────────── */
   var css = `
     #snrg-kh-btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: #ffb914; color: #fff;
+      display: inline-flex; align-items: center;
+      background: #ffb914; color: #111;
       font-family: inherit; font-size: 14px; font-weight: 700;
-      padding: 10px 20px; border-radius: 20px; border: none;
+      padding: 10px 22px; border-radius: 20px; border: none;
       cursor: pointer; margin: 0 0 1.5rem; transition: background .15s;
+      letter-spacing: normal;
     }
     #snrg-kh-btn:hover { background: #e0a210; }
 
@@ -51,15 +52,16 @@
 
     .kh-options { display: grid; gap: 6px; }
     .kh-option {
-      display: flex; align-items: center; gap: 11px;
-      padding: 9px 13px; border: 1px solid #e2dbd3; border-radius: 6px;
+      display: flex; align-items: center; gap: 0;
+      padding: 10px 13px; border: 1px solid #e2dbd3; border-radius: 6px;
       background: #faf8f5; cursor: pointer; text-align: left; width: 100%;
       font-family: inherit; transition: border-color .12s, background .12s;
+      letter-spacing: normal;
     }
     .kh-option:hover { border-color: #ffb914; background: #fffbf2; }
-    .kh-kh-icon { font-size: 16px; flex-shrink: 0; }
-    .kh-opt-title { display: block; font-size: 13px; font-weight: 600; color: #111; }
-    .kh-opt-sub { display: block; font-size: 11px; color: #999; margin-top: 1px; }
+    .kh-kh-icon { display: none; }
+    .kh-opt-title { display: block; font-size: 14px; font-weight: 600; color: #111; letter-spacing: normal; }
+    .kh-opt-sub { display: block; font-size: 12px; color: #999; margin-top: 2px; letter-spacing: normal; }
     .kh-back { margin-top: 10px; font-size: 11px; color: #bbb; background: none; border: none; cursor: pointer; font-family: inherit; }
     .kh-back:hover { color: #555; }
 
@@ -92,7 +94,7 @@
   document.head.appendChild(style);
 
   /* ── 2. HTML INJECTEREN ─────────────────────────────────────────────────── */
-  var trigger = '<button id="snrg-kh-btn" onclick="snrgKH.open()">⚡ Keuzehulp particulieren</button>';
+  var trigger = '<button id="snrg-kh-btn" onclick="snrgKH.open()">Keuzehulp particulieren</button>';
   var overlay = '<div id="snrg-kh-overlay" onclick="snrgKH.bgClose(event)"><div id="snrg-kh-modal"><div class="kh-topbar"><div class="kh-topbar-dot"></div><div class="kh-topbar-label">Keuzehulp thuisbatterij</div><div class="kh-topbar-step" id="kh-stap-label">Stap 1 van 4</div><button class="kh-topbar-close" onclick="snrgKH.close()">✕</button></div><div class="kh-progress" id="kh-progress"></div><div class="kh-card" id="kh-content"></div></div></div>';
 
   function inject() {
@@ -158,18 +160,18 @@
     if (backup === "ja" || gebruik === "backup") return { titel: "Batterij met backup-functie", uitleg: "Sigenergy heeft backup ingebouwd in het totaalpakket — geen losse module nodig. Kies 1-fase of 3-fase afhankelijk van je aansluiting.", producten: ["sigenergy_totaal_1f", "sigenergy_totaal_3f"] };
     if (gebruik === "dynamic") return { titel: "Optimaal voor dynamisch contract", uitleg: "Hoymiles is de plug & play instapper — snel geïnstalleerd, geen elektricien. Sigenergy is het complete vaste systeem met veel meer vermogen en capaciteit voor serieus handelen op uurtarieven. Kies op basis van je budget en situatie.", producten: cap === "groot" ? ["sigenergy_totaal_3f", "sigenergy_totaal_1f", "plugplay_klein"] : ["plugplay_klein", "sigenergy_totaal_1f", "sigenergy_totaal_3f"] };
     if (inst === "pnp") {
-      if (cap === "groot") return { titel: "Plug & play voor groot systeem", uitleg: null, producten: ["aeg_plugplay", "marstek_15kwh", "plugplay_groot"] };
-      if (cap === "middel") return { titel: "Plug & play — populairste keuze", uitleg: null, producten: ["aeg_plugplay", "plugplay_mid", "marstek_v3"] };
-      return { titel: "Plug & play starten", uitleg: null, producten: ["aeg_plugplay", "plugplay_mid", "plugplay_klein"] };
+      if (cap === "groot") return { titel: "Plug & play voor groot systeem", uitleg: null, producten: ["aeg_plugplay", "sessy_10kwh", "plugplay_groot"] };
+      if (cap === "middel") return { titel: "Plug & play — populairste keuze", uitleg: null, producten: ["aeg_plugplay", "plugplay_klein", "sessy_5kwh"] };
+      return { titel: "Plug & play starten", uitleg: null, producten: ["aeg_plugplay", "plugplay_klein", "sessy_5kwh"] };
     }
     if (inst === "vast") {
       if (cap === "groot") return { titel: "Vast systeem voor groot verbruik", uitleg: null, producten: ["sigenergy_totaal_3f", "alphaess", "sigenergy_10kwh"] };
       if (cap === "klein") return { titel: "Compact vast systeem", uitleg: null, producten: ["huawei_luna", "growatt_totaal", "sigenergy_totaal_1f"] };
       return { titel: "Vast systeem — middenklasse", uitleg: null, producten: ["sigenergy_totaal_1f", "huawei_luna", "alphaess"] };
     }
-    if (cap === "groot") return { titel: "Hoge capaciteit aanbevolen", uitleg: null, producten: ["marstek_15kwh", "sigenergy_totaal_3f", "sessy_10kwh"] };
-    if (cap === "klein") return { titel: "Instapopties", uitleg: null, producten: ["plugplay_mid", "plugplay_klein", "growatt_totaal"] };
-    return { titel: "Populaire thuisbatterijen", uitleg: null, producten: ["plugplay_mid", "sigenergy_totaal_1f", "sessy_5kwh"] };
+    if (cap === "groot") return { titel: "Hoge capaciteit aanbevolen", uitleg: null, producten: ["aeg_plugplay", "sigenergy_totaal_3f", "sessy_10kwh"] };
+    if (cap === "klein") return { titel: "Instapopties", uitleg: null, producten: ["aeg_plugplay", "plugplay_klein", "growatt_totaal"] };
+    return { titel: "Populaire thuisbatterijen", uitleg: null, producten: ["aeg_plugplay", "sigenergy_totaal_1f", "sessy_5kwh"] };
   }
 
   var antwoorden = [], stap = 0;
