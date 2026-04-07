@@ -1,14 +1,15 @@
 (function () {
-  if (!window.location.pathname.startsWith('/thuisbatterijen')) return;
+  var path = window.location.pathname.replace(/\/$/, '');
+  if (path !== '/thuisbatterijen') return;
 
   /* ── 1. STIJLEN ─────────────────────────────────────────────────────────── */
   var css = `
     #snrg-kh-btn {
-      display: inline-flex; align-items: center;
+      display: block; width: 100%; text-align: center;
       background: #ffb914; color: #111;
       font-family: inherit; font-size: 14px; font-weight: 700;
-      padding: 10px 22px; border-radius: 20px; border: none;
-      cursor: pointer; margin: 0 0 1.5rem; transition: background .15s;
+      padding: 10px 16px; border-radius: 20px; border: none;
+      cursor: pointer; transition: background .15s;
       letter-spacing: normal;
     }
     #snrg-kh-btn:hover { background: #e0a210; }
@@ -98,11 +99,26 @@
   var overlay = '<div id="snrg-kh-overlay" onclick="snrgKH.bgClose(event)"><div id="snrg-kh-modal"><div class="kh-topbar"><div class="kh-topbar-dot"></div><div class="kh-topbar-label">Keuzehulp thuisbatterij</div><div class="kh-topbar-step" id="kh-stap-label">Stap 1 van 4</div><button class="kh-topbar-close" onclick="snrgKH.close()">✕</button></div><div class="kh-progress" id="kh-progress"></div><div class="kh-card" id="kh-content"></div></div></div>';
 
   function inject() {
-    var target = document.querySelector('.page-content, [data-content-region="category"], .productGrid, main');
-    if (!target) return;
-    var wrap = document.createElement('div');
-    wrap.innerHTML = trigger + overlay;
-    target.parentNode.insertBefore(wrap, target);
+    // Plaats knop onderaan de sidebar
+    var sidebar = document.querySelector('.page-sidebar, #faceted-search-container');
+    if (sidebar) {
+      var sidebarWrap = document.createElement('div');
+      sidebarWrap.style.cssText = 'margin-top: 1.5rem;';
+      sidebarWrap.innerHTML = trigger;
+      sidebar.appendChild(sidebarWrap);
+    } else {
+      // Fallback: boven de productgrid
+      var target = document.querySelector('.page-content, .productGrid, main');
+      if (target) {
+        var wrap = document.createElement('div');
+        wrap.innerHTML = trigger;
+        target.parentNode.insertBefore(wrap, target);
+      }
+    }
+    // Overlay altijd aan body toevoegen
+    var overlayWrap = document.createElement('div');
+    overlayWrap.innerHTML = overlay;
+    document.body.appendChild(overlayWrap);
   }
 
   if (document.readyState === 'loading') {
@@ -113,65 +129,157 @@
 
   /* ── 3. WIDGET LOGICA ───────────────────────────────────────────────────── */
   var PRODUCTS = {
-    plugplay_klein: { featured: true, naam: "Hoymiles Plug-In Battery MS-A2 · 2,24 kWh", prijs: "€ 998,–", desc: "Kleinste plug & play optie — gewoon in het stopcontact. Geen installateur, geen omvormer nodig. Inclusief P1-monitoring via app. Ideaal als eerste stap of voor dynamisch contract.", tags: ["2,24 kWh", "Plug & Play", "Geen installateur", "P1-monitoring"], stock: null, url: "https://solarnrg.shop/thuisbatterijen/hoymiles-plug-in-battery-ms-a2-2-24kwh-p1-monitoring/" },
-    plugplay_mid: { featured: false, naam: "Marstek Venus-E V2.0 · 5,12 kWh", prijs: "€ 1.250,–", desc: "Bestseller. Plug & play via stopcontact of aparte groep (2.500 W). Incl. P1-meter.", tags: ["5,12 kWh", "2.500 W", "LiFePO₄"], stock: null, url: "https://solarnrg.shop/thuisbatterijen/marstek-venus-e-5-12-kwh-v2-plug-and-play-thuisbatterij-met-p1meter/" },
-    plugplay_groot: { featured: false, naam: "Marstek Venus-E 10,24 kWh 2.0", prijs: "€ 2.738,–", desc: "Dubbele capaciteit. Plug & play, inclusief P1-meter, geschikt voor dynamisch laden.", tags: ["10,24 kWh", "Plug & Play", "Dynamisch laden"], stock: null, url: "https://solarnrg.shop/thuisbatterijen/marstek-venus-e-10-24-kwh-2-0-plug-and-play-thuisbatterij-met-p1-meter/" },
-    aeg_plugplay: { featured: true, naam: "AEG Solarcube · 4,8 kWh", prijs: "€ 1.750,–", desc: "Uitbreidbaar tot 14,4 kWh. 10 jaar garantie, 6.000+ cycli.", tags: ["4,8 kWh", "Uitbreidbaar", "10 jr garantie"], stock: null, url: "https://solarnrg.shop/thuisbatterijen/aeg-solarcube-4-8-kwh-plug-in-battery/" },
-    marstek_v3: { featured: false, naam: "Marstek Venus-E V3.0 · 5,12 kWh", prijs: "€ 1.150,–", desc: "Nieuwste generatie. 2.500 W laadvermogen. Ideaal voor dynamisch contract.", tags: ["5,12 kWh", "V3.0", "2.500 W"], stock: null, url: "https://solarnrg.shop/thuisbatterijen/marstek-venus-e-5-12kwh-v3-0/" },
-    sessy_5kwh: { featured: false, naam: "Sessy Thuisbatterij · 5 kWh", prijs: "€ 2.820,–", desc: "Nederlands merk. Plug & play via 3-fase groep. Uitstekend voor dynamisch contract.", tags: ["5 kWh", "Dynamisch contract", "Nederlands"], stock: null, url: "https://solarnrg.shop/thuisbatterijen/sessy-thuisbatterij-5-kwh-wit/" },
-    sessy_10kwh: { featured: false, naam: "Sessy Thuisbatterij · 10 kWh", prijs: "€ 4.560,–", desc: "Grote capaciteit, plug & play, dynamisch contract-klaar.", tags: ["10 kWh", "Dynamisch contract", "LiFePO₄"], stock: null, url: "https://solarnrg.shop/thuisbatterijen/sessy-thuisbatterij-10-kwh-wit/" },
-    growatt_totaal: { featured: false, naam: "Growatt APX Totaalpakket · 5 kWh", prijs: "€ 2.299,–", desc: "Voordeligste complete vaste systeem. LFP, IP66, wandmontage. Incl. omvormer en meter.", tags: ["5 kWh", "Compleet pakket", "IP66"], stock: null, url: "https://solarnrg.shop/batterijen/totaalpakketten/growatt-apx-batterij-totaalpakket/" },
-    sigenergy_totaal_1f: { featured: true, naam: "Sigenergy Totaalpakket · 1-fase", prijs: "v.a. € 3.932,–", desc: "Compleet vast systeem met omvormer, batterij én ingebouwde backup (0 ms omschakeling). Kies zelf het vermogen (3–6 kW) en de capaciteit (6–27 kWh). Installateur nodig, maar daarna volledig automatisch.", tags: ["Vast systeem", "Backup inbegrepen", "6–27 kWh keuze", "1-fase"], stock: null, url: "https://solarnrg.shop/batterijen/totaalpakketten/sigenergy-batterij-totaalpakket-1-fase/" },
-    sigenergy_totaal_3f: { featured: true, naam: "Sigenergy Totaalpakket · 3-fase", prijs: "v.a. € 4.602,–", desc: "Zelfde als 1-fase maar voor 3-fase aansluiting — meer vermogen, geschikt voor grotere huishoudens en actief dynamisch handelen. Inclusief backup en configureerbare capaciteit.", tags: ["Vast systeem", "Backup inbegrepen", "3-fase", "Hoog vermogen"], stock: null, url: "https://solarnrg.shop/batterijen/totaalpakketten/sigenergy-batterij-totaalpakket-3-fase/" },
-    sigenergy_bat8: { featured: false, naam: "Sigenergy SigenStor Battery · 8 kWh", prijs: "€ 2.340,–", desc: "Modulair uitbreidbaar. Combineer met Sigenergy controller voor volledig systeem.", tags: ["8 kWh", "Modulair", "LiFePO₄"], stock: null, url: "https://solarnrg.shop/thuisbatterijen/sigenergy-sigenstor-battery-8-0-with-led-opvolger-is-10-0/" },
-    alphaess: { featured: false, naam: "AlphaESS Smile G3-BAT-9.3S · 9,3 kWh", prijs: "€ 2.100,–", desc: "Grote 9,3 kWh batterijunit voor vast systeem. IP65, geschikt voor buiten. Combineer met een Alpha ESS omvormer voor een compleet systeem.", tags: ["9,3 kWh", "IP65", "Vast systeem", "LiFePO₄"], stock: "Op voorraad", url: "https://solarnrg.shop/thuisbatterijen/alphaess-smile-g3-bat-9-3s-ip65/" },
-    huawei_luna: { featured: false, naam: "Huawei LUNA2000-5KW-C0 · 5 kWh", prijs: "€ 991,–", desc: "Betrouwbare 5 kWh module van Huawei. Op voorraad, uitbreidbaar. Geschikt voor vast systeem met Huawei hybride omvormer. Optioneel inclusief installatie.", tags: ["5 kWh", "Huawei", "Uitbreidbaar", "Vast systeem"], stock: "Op voorraad", url: "https://solarnrg.shop/batterijen/huawei-luna2000-5kw-c0/" },
-    marstek_15kwh: { featured: false, naam: "Marstek Venus-E 15,36 kWh 2.0", prijs: "€ 4.029,–", desc: "Maximale Marstek plug & play capaciteit voor grote systemen.", tags: ["15,36 kWh", "Plug & Play", "Dynamisch laden"], stock: null, url: "https://solarnrg.shop/plug-and-play/marstek-venus-e-15-36-kwh-2-0-plug-and-play-thuisbatterij-met-p1-meter/" },
-    sigenergy_10kwh: { featured: false, naam: "Sigenergy SigenStor Battery · 10 kWh", prijs: "€ 3.276,–", desc: "Nieuwste 10 kWh module. Modulair stapelbaar.", tags: ["10 kWh", "Modulair", "LiFePO₄"], stock: null, url: "https://solarnrg.shop/thuisbatterijen/sigenergy-sigenstor-battery-10-0-with-led/" }
+    // ── PLUG & PLAY (echt stopcontact, geen installateur) ──────────────────
+    hoymiles: {
+      featured: true,
+      naam: "Hoymiles Plug-In Battery MS-A2 · 2,24 kWh",
+      prijs: "€ 998,–",
+      desc: "Echte plug & play — gewoon in het stopcontact. Geen installateur nodig. Max. 1.000 W via app instelbaar. Inclusief P1-monitoring. Ideale instapper.",
+      tags: ["2,24 kWh", "Stopcontact", "Geen installateur", "P1-monitoring"],
+      stock: "Op voorraad",
+      url: "https://solarnrg.shop/thuisbatterijen/hoymiles-plug-in-battery-ms-a2-2-24kwh-p1-monitoring/"
+    },
+    aeg_solarcube: {
+      featured: true,
+      naam: "AEG Solarcube · 4,8 kWh",
+      prijs: "€ 1.750,–",
+      desc: "Plug & play via stopcontact (800 W) of aparte groep (2.500 W). Uitbreidbaar tot 14,4 kWh. 10 jaar garantie, 6.000+ cycli. Geen installateur nodig.",
+      tags: ["4,8 kWh", "Uitbreidbaar tot 14,4 kWh", "10 jr garantie", "Stopcontact"],
+      stock: null,
+      url: "https://solarnrg.shop/thuisbatterijen/aeg-solarcube-4-8-kwh-plug-in-battery/"
+    },
+    zendure: {
+      featured: false,
+      naam: "Zendure Solarflow 2400AC · plug & play",
+      prijs: "€ 495,–",
+      desc: "AC-gekoppeld plug & play systeem, 2.400 W vermogen. Combineer met de AB3000X uitbreidingsbatterij voor meer capaciteit. Geschikt voor dynamisch contract.",
+      tags: ["2.400 W", "Plug & Play", "Stopcontact of vaste groep", "Dynamisch"],
+      stock: null,
+      url: "https://solarnrg.shop/thuisbatterijen/zendure-solarflow-2400ac/"
+    },
+    // ── VAST SYSTEEM (installateur nodig) ──────────────────────────────────
+    sigenergy_1f: {
+      featured: true,
+      naam: "Sigenergy Totaalpakket · 1-fase",
+      prijs: "v.a. € 3.932,–",
+      desc: "Compleet vast systeem: omvormer + batterij + ingebouwde backup (0 ms). Configureerbaar van 6 tot 27 kWh. Installateur nodig. Daarna volledig automatisch.",
+      tags: ["Vast systeem", "Backup inbegrepen", "6–27 kWh", "1-fase", "IP66"],
+      stock: null,
+      url: "https://solarnrg.shop/batterijen/totaalpakketten/sigenergy-batterij-totaalpakket-1-fase/"
+    },
+    sigenergy_3f: {
+      featured: true,
+      naam: "Sigenergy Totaalpakket · 3-fase",
+      prijs: "v.a. € 4.602,–",
+      desc: "Compleet 3-fase systeem met backup (0 ms). Hoog omvormer vermogen, ideaal voor grote huishoudens en dynamisch handelen. Configureerbaar van 6 tot 27 kWh.",
+      tags: ["Vast systeem", "Backup inbegrepen", "3-fase", "Hoog vermogen", "IP66"],
+      stock: null,
+      url: "https://solarnrg.shop/batterijen/totaalpakketten/sigenergy-batterij-totaalpakket-3-fase/"
+    },
+    growatt: {
+      featured: false,
+      naam: "Growatt APX Totaalpakket · 5 kWh",
+      prijs: "€ 2.299,–",
+      desc: "Voordeligste complete vaste systeem. Inclusief omvormer, batterij en energiemeter. LFP, IP66, wand- of vloermontage. Installateur nodig.",
+      tags: ["5 kWh", "Compleet pakket", "Voordeligst", "IP66"],
+      stock: null,
+      url: "https://solarnrg.shop/batterijen/totaalpakketten/growatt-apx-batterij-totaalpakket/"
+    },
+    huawei_luna: {
+      featured: false,
+      naam: "Huawei LUNA2000-5KW-C0 · 5 kWh",
+      prijs: "€ 991,–",
+      desc: "Losse 5 kWh batterijmodule van Huawei. Combineer met Huawei hybride omvormer. Uitbreidbaar, A-merk kwaliteit. Optioneel inclusief installatie (+€499).",
+      tags: ["5 kWh", "Huawei A-merk", "Uitbreidbaar", "Optioneel installatie"],
+      stock: "Op voorraad",
+      url: "https://solarnrg.shop/batterijen/huawei-luna2000-5kw-c0/"
+    },
+    alphaess: {
+      featured: false,
+      naam: "AlphaESS Smile G3-BAT-9.3S · 9,3 kWh",
+      prijs: "€ 2.100,–",
+      desc: "Grote 9,3 kWh batterijunit voor vast systeem. IP65 — geschikt voor buiten. Combineer met AlphaESS omvormer. 8,4 kWh bruikbare capaciteit.",
+      tags: ["9,3 kWh", "IP65", "Binnen of buiten", "Vast systeem"],
+      stock: "Op voorraad",
+      url: "https://solarnrg.shop/thuisbatterijen/alphaess-smile-g3-bat-9-3s-ip65/"
+    },
+    // ── SESSY (aparte groep, geen echte plug & play) ───────────────────────
+    sessy_5kwh: {
+      featured: false,
+      naam: "Sessy Thuisbatterij · 5 kWh",
+      prijs: "€ 2.820,–",
+      desc: "Nederlands merk. Aansluiting via aparte 1- of 3-fase groep (geen gewoon stopcontact). 1.700 W vermogen. Uitstekend voor dynamisch contract via P1-koppeling.",
+      tags: ["5 kWh", "Aparte groep", "Dynamisch contract", "Nederlands merk"],
+      stock: null,
+      url: "https://solarnrg.shop/thuisbatterijen/sessy-thuisbatterij-5-kwh-wit/"
+    },
+    sessy_10kwh: {
+      featured: false,
+      naam: "Sessy Thuisbatterij · 10 kWh",
+      prijs: "€ 4.560,–",
+      desc: "Grote capaciteit. Aansluiting via aparte 1- of 3-fase groep. 1.700 W vermogen. Dynamisch contract-klaar via P1-koppeling.",
+      tags: ["10 kWh", "Aparte groep", "Dynamisch contract", "Nederlands merk"],
+      stock: null,
+      url: "https://solarnrg.shop/thuisbatterijen/sessy-thuisbatterij-10-kwh-wit/"
+    }
   };
 
   var STEPS = [
     { id: "gebruik", vraag: "Wat is je voornaamste doel?", sub: null, opties: [
-      { icon: "☀️", label: "Zonne-energie opslaan", sub: "Overdag opgewekte stroom 's avonds gebruiken", waarde: "solar" },
-      { icon: "⚡", label: "Energiekosten verlagen", sub: "Goedkoop laden, duur verbruik vermijden", waarde: "saving" },
-      { icon: "🔌", label: "Backup bij stroomuitval", sub: "Kritieke apparaten blijven werken", waarde: "backup" },
-      { icon: "📈", label: "Dynamisch contract", sub: "Laden op lage uurtarieven, terugleveren bij hoge", waarde: "dynamic" }
+      { icon: "", label: "Zonne-energie opslaan", sub: "Overdag opgewekte stroom 's avonds gebruiken", waarde: "solar" },
+      { icon: "", label: "Energiekosten verlagen", sub: "Goedkoop laden, duur verbruik vermijden", waarde: "saving" },
+      { icon: "", label: "Backup bij stroomuitval", sub: "Kritieke apparaten blijven werken bij blackout", waarde: "backup" },
+      { icon: "", label: "Dynamisch contract optimaliseren", sub: "Laden op lage uurtarieven, terugleveren bij hoge", waarde: "dynamic" }
     ]},
-    { id: "installatie", vraag: "Hoe wil je installeren?", sub: "Plug & play = zelf insteken. Vast systeem = elektricien nodig, meer capaciteit.", opties: [
-      { icon: "🔧", label: "Plug & play (zelf doen)", sub: "Via stopcontact of vaste groep", waarde: "pnp" },
-      { icon: "👷", label: "Vast systeem (installateur)", sub: "Meer capaciteit en mogelijkheden", waarde: "vast" },
-      { icon: "❓", label: "Weet ik nog niet", sub: "Toon de beste opties", waarde: "both" }
+    { id: "installatie", vraag: "Hoe wil je installeren?", sub: "Plug & play = zelf in het stopcontact, geen elektricien. Vast systeem = meer capaciteit en vermogen, installateur nodig.", opties: [
+      { icon: "", label: "Plug & play (zelf doen)", sub: "Direct in stopcontact of aparte groep, geen installateur", waarde: "pnp" },
+      { icon: "", label: "Vast systeem (via installateur)", sub: "Meer capaciteit, hogere vermogens, professioneel geïnstalleerd", waarde: "vast" },
+      { icon: "", label: "Weet ik nog niet", sub: "Toon de beste opties", waarde: "both" }
     ]},
     { id: "capaciteit", vraag: "Hoeveel zonnepanelen heb je?", sub: null, opties: [
-      { icon: "🏠", label: "0 – 6 panelen", sub: "Klein systeem", waarde: "klein" },
-      { icon: "🏡", label: "7 – 12 panelen", sub: "Gemiddeld huishouden", waarde: "middel" },
-      { icon: "🏘️", label: "13 of meer panelen", sub: "Groot dak, hoog verbruik", waarde: "groot" },
-      { icon: "❓", label: "Geen / weet ik niet", sub: "Oriënterende koper", waarde: "geen" }
+      { icon: "", label: "0 – 6 panelen", sub: "Klein systeem", waarde: "klein" },
+      { icon: "", label: "7 – 12 panelen", sub: "Gemiddeld huishouden", waarde: "middel" },
+      { icon: "", label: "13 of meer panelen", sub: "Groot dak, hoog verbruik", waarde: "groot" },
+      { icon: "", label: "Geen / weet ik niet", sub: "Ik oriënteer me", waarde: "geen" }
     ]},
-    { id: "backup", vraag: "Backup bij stroomuitval — nodig?", sub: "Vereist een speciale module. Niet elke batterij heeft dit standaard.", opties: [
-      { icon: "🔋", label: "Ja, essentieel", sub: "Ik wil zekerheid bij een blackout", waarde: "ja" },
-      { icon: "💡", label: "Handig, maar niet noodzakelijk", sub: null, waarde: "nice" },
-      { icon: "⚡", label: "Niet nodig", sub: "Ik wil gewoon slim energie opslaan", waarde: "nee" }
+    { id: "backup", vraag: "Backup bij stroomuitval — nodig?", sub: "Backup vereist een speciaal systeem. Sigenergy heeft dit ingebouwd.", opties: [
+      { icon: "", label: "Ja, essentieel", sub: "Ik wil zekerheid bij een blackout", waarde: "ja" },
+      { icon: "", label: "Handig, maar niet noodzakelijk", sub: null, waarde: "nice" },
+      { icon: "", label: "Niet nodig", sub: "Ik wil gewoon slim energie opslaan", waarde: "nee" }
     ]}
   ];
 
   function getResult(a) {
     var gebruik = a[0], inst = a[1], cap = a[2], backup = a[3];
-    if (backup === "ja" || gebruik === "backup") return { titel: "Batterij met backup-functie", uitleg: "Sigenergy heeft backup ingebouwd in het totaalpakket — geen losse module nodig. Kies 1-fase of 3-fase afhankelijk van je aansluiting.", producten: ["sigenergy_totaal_1f", "sigenergy_totaal_3f"] };
-    if (gebruik === "dynamic") return { titel: "Optimaal voor dynamisch contract", uitleg: "Hoymiles is de plug & play instapper — snel geïnstalleerd, geen elektricien. Sigenergy is het complete vaste systeem met veel meer vermogen en capaciteit voor serieus handelen op uurtarieven. Kies op basis van je budget en situatie.", producten: cap === "groot" ? ["sigenergy_totaal_3f", "sigenergy_totaal_1f", "plugplay_klein"] : ["plugplay_klein", "sigenergy_totaal_1f", "sigenergy_totaal_3f"] };
+
+    // Backup altijd Sigenergy
+    if (backup === "ja" || gebruik === "backup") {
+      return { titel: "Batterij met backup-functie", uitleg: "Sigenergy heeft backup ingebouwd in het totaalpakket — geen losse module nodig. Kies 1-fase of 3-fase op basis van jouw aansluiting.", producten: ["sigenergy_1f", "sigenergy_3f"] };
+    }
+
+    // Dynamisch contract: hoog omvormer vermogen is key
+    if (gebruik === "dynamic") {
+      return { titel: "Optimaal voor dynamisch contract", uitleg: "Voor dynamisch handelen is omvormer vermogen het belangrijkst. Zendure en Hoymiles zijn plug & play instappers. Sigenergy levert het hoogste vermogen voor serieus handelen.", producten: cap === "groot" ? ["sigenergy_3f", "sigenergy_1f", "zendure"] : ["zendure", "hoymiles", "sigenergy_1f"] };
+    }
+
+    // Plug & play
     if (inst === "pnp") {
-      if (cap === "groot") return { titel: "Plug & play voor groot systeem", uitleg: null, producten: ["aeg_plugplay", "sessy_10kwh", "plugplay_groot"] };
-      if (cap === "middel") return { titel: "Plug & play — populairste keuze", uitleg: null, producten: ["aeg_plugplay", "plugplay_klein", "sessy_5kwh"] };
-      return { titel: "Plug & play starten", uitleg: null, producten: ["aeg_plugplay", "plugplay_klein", "sessy_5kwh"] };
+      if (cap === "groot") return { titel: "Plug & play — grote capaciteit", uitleg: "Let op: voor grote systemen is een vast systeem vaak efficiënter. Plug & play opties zijn beperkt in capaciteit.", producten: ["aeg_solarcube", "zendure", "sessy_10kwh"] };
+      if (cap === "middel") return { titel: "Plug & play — populairste keuze", uitleg: null, producten: ["aeg_solarcube", "hoymiles", "sessy_5kwh"] };
+      return { titel: "Plug & play starten", uitleg: null, producten: ["hoymiles", "aeg_solarcube", "zendure"] };
     }
+
+    // Vast systeem
     if (inst === "vast") {
-      if (cap === "groot") return { titel: "Vast systeem voor groot verbruik", uitleg: null, producten: ["sigenergy_totaal_3f", "alphaess", "sigenergy_10kwh"] };
-      if (cap === "klein") return { titel: "Compact vast systeem", uitleg: null, producten: ["huawei_luna", "growatt_totaal", "sigenergy_totaal_1f"] };
-      return { titel: "Vast systeem — middenklasse", uitleg: null, producten: ["sigenergy_totaal_1f", "huawei_luna", "alphaess"] };
+      if (cap === "groot") return { titel: "Vast systeem voor groot verbruik", uitleg: null, producten: ["sigenergy_3f", "alphaess", "sigenergy_1f"] };
+      if (cap === "klein") return { titel: "Compact vast systeem", uitleg: null, producten: ["growatt", "huawei_luna", "sigenergy_1f"] };
+      return { titel: "Vast systeem — middenklasse", uitleg: null, producten: ["sigenergy_1f", "growatt", "huawei_luna"] };
     }
-    if (cap === "groot") return { titel: "Hoge capaciteit aanbevolen", uitleg: null, producten: ["aeg_plugplay", "sigenergy_totaal_3f", "sessy_10kwh"] };
-    if (cap === "klein") return { titel: "Instapopties", uitleg: null, producten: ["aeg_plugplay", "plugplay_klein", "growatt_totaal"] };
-    return { titel: "Populaire thuisbatterijen", uitleg: null, producten: ["aeg_plugplay", "sigenergy_totaal_1f", "sessy_5kwh"] };
+
+    // Geen voorkeur
+    if (cap === "groot") return { titel: "Aanbevolen voor groot systeem", uitleg: null, producten: ["sigenergy_3f", "aeg_solarcube", "alphaess"] };
+    if (cap === "klein") return { titel: "Instapopties", uitleg: null, producten: ["hoymiles", "aeg_solarcube", "growatt"] };
+    return { titel: "Populaire thuisbatterijen", uitleg: null, producten: ["aeg_solarcube", "sigenergy_1f", "hoymiles"] };
   }
 
   var antwoorden = [], stap = 0;
